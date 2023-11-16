@@ -26,8 +26,8 @@ class CustomTextFormField extends StatelessWidget {
     ));
     return TextFormField(
       cursorColor: PRIMARY_COLOR,
-      obscureText: true,
-      autofocus: true,
+      obscureText: obscureText,
+      autofocus: autofocus,
       onChanged: onChanged,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(20),
