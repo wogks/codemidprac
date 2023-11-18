@@ -5,6 +5,7 @@ import 'package:code_mid/common/const/data.dart';
 import 'package:code_mid/common/layout/default_layout.dart';
 import 'package:code_mid/common/view/root_tab.dart';
 import 'package:code_mid/user/view/login_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,17 +30,26 @@ class _SplashScreenState extends State<SplashScreen> {
   void checkToken() async {
     final refresh = await storage.read(key: REFRESH_TOKEN_KEY);
     final access = await storage.read(key: ACCESS_TOKEN_KEY);
-    if (refresh == null || access == null) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+    final dio = Dio();
+    try {
+      final res = await dio.post(
+        'http://$ip/auth/token',
+        options: Options(
+          headers: {'authorization': 'Bearer $refresh'},
         ),
-        (route) => false,
       );
-    } else {
+      await storage.write(
+          key: ACCESS_TOKEN_KEY, value: res.data['accessToken']);
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (context) => const RootTab(),
+        ),
+        (route) => false,
+      );
+    } catch (e) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
         ),
         (route) => false,
       );
