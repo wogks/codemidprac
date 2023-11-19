@@ -1,4 +1,7 @@
 import 'package:code_mid/common/const/data.dart';
+import 'package:code_mid/common/utils/data_utils.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'restaurant_model.g.dart';
 
 enum RestauntPriceRange {
   expensive,
@@ -6,9 +9,13 @@ enum RestauntPriceRange {
   cheap,
 }
 
+@JsonSerializable()
 class RestaurantModel {
   final String id;
   final String name;
+  @JsonKey(
+    fromJson: DataUtils.pathToUrl,
+  )
   final String thumbUrl;
   final RestauntPriceRange priceRange;
   final List<String> tags;
@@ -28,19 +35,6 @@ class RestaurantModel {
     required this.deliveryTime,
     required this.deliveryFee,
   });
-
-  factory RestaurantModel.fromJson({required Map<String, dynamic> json}) =>
-      RestaurantModel(
-        id: json['id'],
-        name: json['name'],
-        thumbUrl: 'http://$ip${json['thumbUrl']}',
-        tags: List<String>.from(json['tags']),
-        ratings: json['ratings'],
-        ratingsCount: json['ratingsCount'],
-        deliveryTime: json['deliveryTime'],
-        deliveryFee: json['deliveryFee'],
-        priceRange: RestauntPriceRange.values.firstWhere(
-          (element) => element.name == json['priceRange'],
-        ),
-      );
+  factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
+      _$RestaurantModelFromJson(json);
 }
