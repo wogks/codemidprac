@@ -66,7 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'asset/img/logo/logo.png',
+              'assets/img/logo/logo.png',
               width: MediaQuery.of(context).size.width / 2,
             ),
             const CircularProgressIndicator(

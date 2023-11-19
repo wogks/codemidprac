@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 16),
                 const _SubTile(),
                 Image.asset(
-                  'asset/img/misc/logo.png',
+                  'assets/img/misc/logo.png',
                   width: MediaQuery.of(context).size.width / 3 * 2,
                 ),
                 CustomTextFormField(
