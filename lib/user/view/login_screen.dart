@@ -73,10 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         headers: {'authorization': 'Basic $token'},
                       ),
                     );
-                    final refresh = res.data['refreshToken'];
-                    final access = res.data['accessToken'];
-                    storage.write(key: REFRESH_TOKEN_KEY, value: refresh);
-                    storage.write(key: ACCESS_TOKEN_KEY, value: access);
+                    final refreshToken = res.data['refreshToken'];
+                    final accessToken = res.data['accessToken'];
+                    storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                    storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 
                     Navigator.push(
                       context,

@@ -19,8 +19,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    checkToken();
+
     // deleteToken();
+    checkToken();
   }
 
   void deleteToken() async {
@@ -28,28 +29,34 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkToken() async {
-    final refresh = await storage.read(key: REFRESH_TOKEN_KEY);
-    final access = await storage.read(key: ACCESS_TOKEN_KEY);
+    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+
     final dio = Dio();
+
     try {
-      final res = await dio.post(
+      final resp = await dio.post(
         'http://$ip/auth/token',
         options: Options(
-          headers: {'authorization': 'Bearer $refresh'},
+          headers: {
+            'authorization': 'Bearer $refreshToken',
+          },
         ),
       );
+
       await storage.write(
-          key: ACCESS_TOKEN_KEY, value: res.data['accessToken']);
+          key: ACCESS_TOKEN_KEY, value: resp.data['accessToken']);
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => const RootTab(),
+          builder: (_) => const RootTab(),
         ),
         (route) => false,
       );
     } catch (e) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (_) => const LoginScreen(),
         ),
         (route) => false,
       );
@@ -62,14 +69,11 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: PRIMARY_COLOR,
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: Column(
+        child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/img/logo/logo.png',
-              width: MediaQuery.of(context).size.width / 2,
-            ),
-            const CircularProgressIndicator(
+            SizedBox(height: 16.0),
+            CircularProgressIndicator(
               color: Colors.white,
             ),
           ],
