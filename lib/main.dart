@@ -1,5 +1,3 @@
-import 'package:code_mid/common/component/custom_text_field.dart';
-import 'package:code_mid/user/view/login_screen.dart';
 import 'package:code_mid/user/view/splash_screen.dart';
 import 'package:flutter/material.dart';
 
