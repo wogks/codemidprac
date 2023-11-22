@@ -1,8 +1,23 @@
 // ignore_for_file: avoid_print
 
 import 'package:code_mid/common/const/data.dart';
+import 'package:code_mid/common/secure_storage/secure_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+final dioProvider = Provider(
+  (ref) {
+    final dio = Dio();
+    final storage = ref.watch(secureStorageProvider);
+    dio.interceptors.add(
+      CustomInterceptor(
+        storage: storage,
+      ),
+    );
+    return dio;
+  },
+);
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;

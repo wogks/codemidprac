@@ -6,18 +6,20 @@ import 'package:code_mid/common/component/custom_text_field.dart';
 import 'package:code_mid/common/const/colors.dart';
 import 'package:code_mid/common/const/data.dart';
 import 'package:code_mid/common/layout/default_layout.dart';
+import 'package:code_mid/common/secure_storage/secure_storage.dart';
 import 'package:code_mid/common/view/root_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   String username = '';
   String password = '';
   @override
@@ -75,6 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                     final refreshToken = res.data['refreshToken'];
                     final accessToken = res.data['accessToken'];
+
+                    final storage = ref.read(secureStorageProvider);
                     storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
                     storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 
