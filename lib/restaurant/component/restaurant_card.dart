@@ -49,12 +49,10 @@ class Restaurantcard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (isDetail) image,
-        if (!isDetail)
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: image,
-          ),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(isDetail ? 0 : 12),
+          child: image,
+        ),
         const SizedBox(height: 16),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: isDetail ? 16.0 : 0),
