@@ -1,5 +1,6 @@
 import 'package:code_mid/common/const/colors.dart';
 import 'package:code_mid/common/layout/default_layout.dart';
+import 'package:code_mid/product/view/product_screen.dart';
 import 'package:code_mid/restaurant/view/restaurant_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -70,9 +71,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
           controller: controller,
           children: [
             const RestaurantScreen(),
-            Container(
-              child: const Text('2'),
-            ),
+            const ProductScreen(),
             Container(
               child: const Text('3'),
             ),
