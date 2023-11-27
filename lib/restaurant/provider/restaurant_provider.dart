@@ -1,10 +1,9 @@
 import 'package:code_mid/common/model/cursor_pagination_model.dart';
-import 'package:code_mid/common/model/pagination_params.dart';
 import 'package:code_mid/common/provider/pagination_provider.dart';
 import 'package:code_mid/restaurant/model/restaurant_model.dart';
 import 'package:code_mid/restaurant/repository/restaurant_repository.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final restaurantDetailProvider =
     Provider.family<RestaurantModel?, String>((ref, id) {

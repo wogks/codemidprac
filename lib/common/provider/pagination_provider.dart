@@ -2,7 +2,6 @@ import 'package:code_mid/common/model/cursor_pagination_model.dart';
 import 'package:code_mid/common/model/model_with_id.dart';
 import 'package:code_mid/common/model/pagination_params.dart';
 import 'package:code_mid/common/repository/base_pagination_repository.dart';
-import 'package:code_mid/restaurant/model/restaurant_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PaginationProvider<T extends IModelWithId,

@@ -1,7 +1,7 @@
-import 'package:code_mid/common/const/data.dart';
 import 'package:code_mid/common/model/model_with_id.dart';
 import 'package:code_mid/common/utils/data_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
+
 part 'restaurant_model.g.dart';
 
 enum RestauntPriceRange {

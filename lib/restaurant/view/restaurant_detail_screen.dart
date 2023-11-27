@@ -9,11 +9,11 @@ import 'package:code_mid/restaurant/model/restaurant_detail_model.dart';
 import 'package:code_mid/restaurant/model/restaurant_model.dart';
 import 'package:code_mid/restaurant/provider/restaurant_provider.dart';
 import 'package:code_mid/restaurant/provider/restaurant_rating_provider.dart';
-import 'package:code_mid/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
+  static const String routeName = 'restaurantDetail';
   final String id;
   const RestaurantDetailScreen({
     super.key,

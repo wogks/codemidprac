@@ -1,4 +1,3 @@
-import 'package:code_mid/common/const/data.dart';
 import 'package:code_mid/common/utils/data_utils.dart';
 import 'package:code_mid/restaurant/model/restaurant_model.dart';
 import 'package:json_annotation/json_annotation.dart';

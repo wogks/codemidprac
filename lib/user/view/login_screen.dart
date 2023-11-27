@@ -1,18 +1,15 @@
 // ignore_for_file: unused_element, use_build_context_synchronously
 
-import 'dart:convert';
-
 import 'package:code_mid/common/component/custom_text_field.dart';
 import 'package:code_mid/common/const/colors.dart';
-import 'package:code_mid/common/const/data.dart';
 import 'package:code_mid/common/layout/default_layout.dart';
-import 'package:code_mid/common/secure_storage/secure_storage.dart';
-import 'package:code_mid/common/view/root_tab.dart';
-import 'package:dio/dio.dart';
+import 'package:code_mid/user/model/user_model.dart';
+import 'package:code_mid/user/provider/user_me_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
+  static const String routeName = 'login';
   const LoginScreen({super.key});
 
   @override
@@ -24,7 +21,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String password = '';
   @override
   Widget build(BuildContext context) {
-    final dio = Dio();
+    final state = ref.watch(userMeProvider);
 
     return DefaultLayout(
       child: SingleChildScrollView(
@@ -38,10 +35,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const _Title(),
                 const SizedBox(height: 16),
                 const _SubTile(),
-                Image.asset(
-                  'assets/img/misc/logo.png',
-                  width: MediaQuery.of(context).size.width / 3 * 2,
-                ),
+                // Image.asset(
+                //   'assets/img/misc/logo.png',
+                //   width: MediaQuery.of(context).size.width / 3 * 2,
+                // ),
                 CustomTextFormField(
                   obscureText: false,
                   onChanged: (value) {
@@ -62,33 +59,38 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     backgroundColor: PRIMARY_COLOR,
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: () async {
-                    final rawString = '$username:$password';
+                  onPressed: state is UserModelLoading
+                      ? null
+                      : () async {
+                          ref
+                              .read(userMeProvider.notifier)
+                              .login(username: username, password: password);
+                          // final rawString = '$username:$password';
 
-                    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+                          // Codec<String, String> stringToBase64 = utf8.fuse(base64);
 
-                    String token = stringToBase64.encode(rawString);
+                          // String token = stringToBase64.encode(rawString);
 
-                    final res = await dio.post(
-                      'http://$ip/auth/login',
-                      options: Options(
-                        headers: {'authorization': 'Basic $token'},
-                      ),
-                    );
-                    final refreshToken = res.data['refreshToken'];
-                    final accessToken = res.data['accessToken'];
+                          // final res = await dio.post(
+                          //   'http://$ip/auth/login',
+                          //   options: Options(
+                          //     headers: {'authorization': 'Basic $token'},
+                          //   ),
+                          // );
+                          // final refreshToken = res.data['refreshToken'];
+                          // final accessToken = res.data['accessToken'];
 
-                    final storage = ref.read(secureStorageProvider);
-                    storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
-                    storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+                          // final storage = ref.read(secureStorageProvider);
+                          // storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                          // storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RootTab(),
-                      ),
-                    );
-                  },
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const RootTab(),
+                          //   ),
+                          // );
+                        },
                   child: const Text('로그인'),
                 ),
                 const SizedBox(height: 16),
