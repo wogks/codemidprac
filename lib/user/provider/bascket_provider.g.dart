@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'user_me_repository.dart';
+part of 'bascket_provider.dart';
 
 // **************************************************************************
 // RetrofitGenerator
@@ -24,7 +24,7 @@ class _UserMeRepository implements UserMeRepository {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<UserModel>(Options(
       method: 'GET',
@@ -52,7 +52,7 @@ class _UserMeRepository implements UserMeRepository {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<BasketItemModel>>(Options(
       method: 'GET',
@@ -87,7 +87,7 @@ class _UserMeRepository implements UserMeRepository {
     _data.addAll(body.toJson());
     final _result = await _dio
         .fetch<List<dynamic>>(_setStreamType<List<BasketItemModel>>(Options(
-      method: 'GET',
+      method: 'PATCH',
       headers: _headers,
       extra: _extra,
     )
