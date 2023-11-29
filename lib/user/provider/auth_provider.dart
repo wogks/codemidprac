@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:code_mid/common/view/root_tab.dart';
+import 'package:code_mid/order/view/order_done_screen.dart';
+import 'package:code_mid/restaurant/view/basket_screen.dart';
 import 'package:code_mid/restaurant/view/restaurant_detail_screen.dart';
 import 'package:code_mid/user/model/user_model.dart';
 import 'package:code_mid/user/provider/user_me_provider.dart';
@@ -73,9 +75,19 @@ class AuthProvider extends ChangeNotifier {
               ),
             ]),
         GoRoute(
+          path: '/basket',
+          name: BasketScreen.routeName,
+          builder: (_, state) => const BasketScreen(),
+        ),
+        GoRoute(
           path: '/splash',
           name: SplashScreen.routeName,
           builder: (_, __) => const SplashScreen(),
+        ),
+        GoRoute(
+          path: '/order_done',
+          name: OrderDoneScreen.routeName,
+          builder: (_, __) => const OrderDoneScreen(),
         ),
         GoRoute(
           path: '/login',

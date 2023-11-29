@@ -1,13 +1,9 @@
 import 'package:code_mid/product/model/product_model.dart';
 import 'package:code_mid/user/model/basket_item_modek.dart';
 import 'package:code_mid/user/model/patch_basket_body.dart';
-import 'package:code_mid/user/model/user_model.dart';
 import 'package:code_mid/user/repository/user_me_repository.dart';
 import 'package:collection/collection.dart';
-import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-part 'bascket_provider.g.dart';
 
 final basketProvider =
     StateNotifierProvider<BasketProvider, List<BasketItemModel>>(

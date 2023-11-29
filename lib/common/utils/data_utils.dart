@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:code_mid/common/const/data.dart';
 
 class DataUtils {
+  static DateTime stringToDateTime(String value) {
+    return DateTime.parse(value);
+  }
+
   static pathToUrl(String value) {
     return 'http://$ip$value';
   }
