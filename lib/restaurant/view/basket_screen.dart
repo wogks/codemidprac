@@ -11,50 +11,64 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class BasketScreen extends ConsumerWidget {
-  static String routeName = 'basket';
+  static String get routeName => 'basket';
+
   const BasketScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final basket = ref.watch(basketProvider);
+
     if (basket.isEmpty) {
       return const DefaultLayout(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [Center(child: Text('장바구니가 비었습니다!'))],
-      ));
+        title: '장바구니',
+        child: Center(
+          child: Text(
+            '장바구니가 비어있습니다 ㅠㅠ',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
     }
+
+    final productsTotal = basket.fold<int>(
+      0,
+      (p, n) => p + (n.product.price * n.count),
+    );
+
+    final deliveryFee = basket.first.product.restaurant.deliveryFee;
+
     return DefaultLayout(
       title: '장바구니',
       child: SafeArea(
+        bottom: true,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             children: [
               Expanded(
                 child: ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return const Divider(
-                      height: 32,
-                    );
+                  separatorBuilder: (_, index) {
+                    return const Divider(height: 32.0);
                   },
-                  itemCount: basket.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (_, index) {
                     final model = basket[index];
+
                     return ProductCard.fromProductModel(
                       model: model.product,
                       onAdd: () {
-                        ref
-                            .read(basketProvider.notifier)
-                            .addToBasket(product: model.product);
+                        ref.read(basketProvider.notifier).addToBasket(
+                              product: model.product,
+                            );
                       },
                       onSubtract: () {
-                        ref
-                            .read(basketProvider.notifier)
-                            .removeFromBasket(product: model.product);
+                        ref.read(basketProvider.notifier).removeFromBasket(
+                              product: model.product,
+                            );
                       },
                     );
                   },
+                  itemCount: basket.length,
                 ),
               ),
               Column(
@@ -64,15 +78,12 @@ class BasketScreen extends ConsumerWidget {
                     children: [
                       const Text(
                         '장바구니 금액',
-                        style: TextStyle(color: PRIMARY_COLOR),
+                        style: TextStyle(
+                          color: BODY_TEXT_COLOR,
+                        ),
                       ),
                       Text(
-                        '₩${basket.fold<int>(
-                          0,
-                          (previousValue, element) =>
-                              previousValue +
-                              (element.product.price * element.count),
-                        )}',
+                        '₩$productsTotal',
                       ),
                     ],
                   ),
@@ -81,14 +92,14 @@ class BasketScreen extends ConsumerWidget {
                     children: [
                       const Text(
                         '배달비',
-                        style: TextStyle(color: PRIMARY_COLOR),
+                        style: TextStyle(
+                          color: BODY_TEXT_COLOR,
+                        ),
                       ),
                       if (basket.isNotEmpty)
-                        Text(basket[0]
-                            .product
-                            .restaurant
-                            .deliveryFee
-                            .toString()),
+                        Text(
+                          '₩$deliveryFee',
+                        ),
                     ],
                   ),
                   Row(
@@ -96,39 +107,40 @@ class BasketScreen extends ConsumerWidget {
                     children: [
                       const Text(
                         '총액',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                      Text((basket[0].product.restaurant.deliveryFee +
-                              basket.fold<int>(
-                                0,
-                                (previousValue, element) =>
-                                    previousValue +
-                                    (element.product.price * element.count),
-                              ))
-                          .toString())
+                      Text(
+                        '₩${deliveryFee + productsTotal}',
+                      ),
                     ],
                   ),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PRIMARY_COLOR,
-                      ),
                       onPressed: () async {
-                        final res =
+                        final resp =
                             await ref.read(orderProvider.notifier).postOrder();
-                        if (res) {
+
+                        if (resp) {
                           context.goNamed(OrderDoneScreen.routeName);
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('결제실패')));
+                            const SnackBar(content: Text('결제 실패!')),
+                          );
                         }
                       },
-                      child: const Text('결제하기'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: PRIMARY_COLOR,
+                      ),
+                      child: const Text(
+                        '결제하기',
+                      ),
                     ),
-                  )
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

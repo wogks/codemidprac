@@ -1,4 +1,3 @@
-import 'package:code_mid/user/model/basket_item_modek.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'post_order_body.g.dart';
 
